@@ -1,0 +1,27 @@
+# ============================================
+# CONFIGURACIÓN CORRECTA PARA NEXT.JS + NETLIFY
+# ============================================
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Forzar Node 22 (requerido por Next.js 16)
+[build.environment]
+  NODE_VERSION = "22"
+
+# Plugin oficial de Netlify para Next.js
+# (maneja SSR, API routes, el panel admin y los pedidos)
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Headers de seguridad
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# ⚠️ IMPORTANTE: NO agregar redirects "/* → /index.html".
+# Eso rompe Next.js y provoca el error 404 "Page not found".
+# El plugin @netlify/plugin-nextjs se encarga de TODAS las rutas.
